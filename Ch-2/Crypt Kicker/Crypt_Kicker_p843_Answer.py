@@ -10,8 +10,7 @@ def load_num():
 
 
 def valid_sub(enc, word, subs):
-    """Check if the a substituion dict is valid to convert
-    from enc to word."""
+
     if len(enc) != len(word):
         return False
 
@@ -23,8 +22,7 @@ def valid_sub(enc, word, subs):
 
 
 def create_sub(enc, word, subs):
-    """Create a new substitucion dict where the missing substitutions
-    to got from enc to word are added"""
+
     new_subs = copy(subs)
 
     for e, w in zip(enc, word):
@@ -34,7 +32,6 @@ def create_sub(enc, word, subs):
         if new_subs[e] is not None:
             raise ValueError
 
-        # No two letters can be reblaced by same letter
         if w in new_subs.values():
             raise ValueError
         new_subs[e] = w
@@ -43,34 +40,26 @@ def create_sub(enc, word, subs):
 
 
 def decrypt(enc, words, subs=None):
-    """Recursive solution using backtracking"""
     if subs is None:
         subs = {c: None for c in ALPHABET}
 
     for word in words[len(enc[0])]:
-        # Check word  is valid with current substitutions
         if not valid_sub(enc[0], word, subs):
             continue
 
-        # Create new substitution dict for the word
         try:
             new_subs = create_sub(enc[0], word, subs)
         except ValueError:
             continue
  
-        # This is the end of the search
         if len(enc) == 1:
             return [word]
         
-        # More words in the list .. keep searching
         dec = decrypt(enc[1:], words, new_subs)
         if dec is not None:
             return [word]+dec
         
     return None
-
-
-
 
 if __name__ == '__main__':
     nwords = load_num()
