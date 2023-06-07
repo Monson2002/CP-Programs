@@ -1,12 +1,8 @@
 import sys
 from itertools import count
 
-
-
 def digit(n, num):
     return num%(10**(n+1))//10**n
-
-
 
 class Interpreter(object):
 
@@ -76,9 +72,7 @@ class Interpreter(object):
             ins = self._mem[self._pc]
             self.decode_execute(ins)
             self._icounter +=1
-
         return self._icounter
-
 
 def load_num():
     line = sys.stdin.readline()
@@ -87,7 +81,6 @@ def load_num():
     else:
         return int(line)
 
-
 def load_prog(): 
     prog = []
 
@@ -95,12 +88,9 @@ def load_prog():
         instruction = load_num()
         if instruction is None:
             break
-
         prog.append(instruction)
 
     return prog
-
-
 
 if __name__ == '__main__':
 
